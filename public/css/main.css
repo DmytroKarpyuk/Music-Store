@@ -1,0 +1,69 @@
+body {
+    background: url(../images/back.jpg);
+    background-image: cover no-repeat;
+}
+
+.left-nav {
+    color: #000000bd;
+}
+
+.user-management {
+    color: white;
+    text-decoration: none;
+}
+
+.fa-google {
+    color: rgb(0, 132, 255);
+}
+
+.user-management:hover {
+    color: #dddddd;
+    transition: .2s;
+}
+
+.container {
+    background: #ffffff;
+    color: rgb(56, 56, 56);
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.card {
+    height: 27rem;
+}
+
+.card-img-top {
+    display: block;
+    margin: 20px auto;
+    max-width: 80%;
+    min-height: 150px;
+}
+
+.thumb {
+    display: block;
+    margin: 20px auto;
+    max-width: 40%;
+    min-height: 150px;
+}
+
+.price {
+    font-size: 50px;
+}
+
+.cart-minus, .cart-plus {
+    cursor: pointer;
+}
+
+.cartTotal {
+    font-size: large;
+}
+
+.footer {
+    text-align: center;
+    font-size: 18px;
+    min-height: 100px;
+    color: #ffffff;
+    background: #003caa;
+}
