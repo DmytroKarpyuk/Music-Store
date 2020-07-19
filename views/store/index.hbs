@@ -1,0 +1,22 @@
+<div class="container mb-4">
+    {{>store_nav}}
+</div>
+<div class="container">
+    {{>index_slider}}
+    <div class="row">
+        {{#each categories}}
+        <h2>
+            <a href="/cat?id={{idCat}}">{{category}}</a>
+        </h2>
+        <div class="row">
+            {{#each ../goods}}
+            {{#if (ifEquals category ../idCat)}}
+            <div class="col-xl-3">
+                {{>card}}
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+</div>

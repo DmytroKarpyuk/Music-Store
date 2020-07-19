@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+        <h1>Register</h1>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-xl-6">
+            {{>messages}}
+            <form action="/user/register" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="name" id="name" name="name" class="form-control" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" class="form-control" name="email" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" id="password2" name="password2" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary mb-4">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
