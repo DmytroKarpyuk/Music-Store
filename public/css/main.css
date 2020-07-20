@@ -24,6 +24,7 @@ body {
 .container {
     background: #ffffff;
     color: rgb(56, 56, 56);
+    margin-bottom: 510px;
 }
 
 .title {
