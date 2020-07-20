@@ -20,35 +20,12 @@ router.get('/', async (req, res) => {
     const goods = await Product.find({}).lean()
     const categories = await Category.find({}).lean()
     const categories_list = await Category.find({}).lean()
-    // let goods = new Promise((resolve, reject) => {
-    //     dbConnect.query(
-    //         "select id,name, cost, image, category from (select id,name,cost,image,category, if(if(@curr_category != category, @curr_category := category, '') != '', @k := 0, @k := @k + 1) as ind   from goods, ( select @curr_category := '' ) v ) goods where ind < 3",
-    //         (error, result, field) => {
-    //             if (error) return reject(error)
-    //             resolve(result)
-    //         }
-    //     )
-    // })
-    // let catDescription = new Promise((resolve, reject) => {
-    //     dbConnect.query(
-    //         "SELECT * FROM category",
-    //         (error, result, field) => {
-    //             if (error) return reject(error)
-    //             resolve(result)
-    //         }
-    //     )
-    // })
-    // Promise.all([goods, catDescription])
-    //     .then((value) => {
     res.render('store/index', {
         title: 'Music Store Home',
         goods,
         categories,
-        categories_list
-        // goods: JSON.parse(JSON.stringify(value[0]))
-        // cat: JSON.parse(JSON.stringify(value[1]))
+        categories_list  
     })
-    // })
 })
 
 router.get('/cat', async (req, res) => {
@@ -118,19 +95,6 @@ router.get('/checkout', (req, res, next) => {
 router.post("/get-goods-info", async (req, res, next) => {
     console.log(req.body.key)
     const goods = await Product.find({ _id: { $in: req.body.key } }).lean()
-    // if (req.body.key.length != 0) {
-    //     dbConnect.query('SELECT id, name, cost FROM goods WHERE id IN (' + req.body.key.join(',') + ')', function (error, result, fields) {
-    //         if (error) throw error;
-    //         // console.log(result);
-    //         let goods = {};
-    //         for (let i = 0; i < result.length; i++) {
-    //             goods[result[i]['id']] = result[i];
-    //         }
-    //         res.json(goods);
-    //     });
-    // } else {
-    //     res.send('0');
-    // }
     console.log(goods)
 });
 
