@@ -1,11 +1,10 @@
-const { Router } = require('express')
+const {Router} = require('express')
 const router = Router()
-
 const passport = require('passport')
-const { ensureAuthenticated } = require('../config/auth')
+const {ensureAuthenticated} = require('../config/auth')
 // Stripe
 const stripe = require('stripe')('sk_test_51H5FVeKtxSFU6gBc2GLQHPuHn8pTVNbhXb9ZCFa7uiCGKrYtIXKmyhnt4SPmjbDudFjjTaJOWbCWPIBAfzhVU8x100DCt0O7DC')
-
+// Models
 const Product = require('../models/Product')
 const Category = require('../models/Category')
 const Cart = require('../models/Cart')
@@ -24,13 +23,13 @@ router.get('/', async (req, res) => {
         title: 'Music Store Home',
         goods,
         categories,
-        categories_list  
+        categories_list
     })
 })
 
 router.get('/cat', async (req, res) => {
-    const categories = await Category.findOne({ idCat: req.query.id })
-    const goods = await Product.find({ category: req.query.id }).lean()
+    const categories = await Category.findOne({idCat: req.query.id})
+    const goods = await Product.find({category: req.query.id}).lean()
     const categories_list = await Category.find({}).lean()
     res.render('store/categories', {
         title: 'Music Store Categories',
@@ -41,14 +40,13 @@ router.get('/cat', async (req, res) => {
 })
 
 router.get('/product', async (req, res) => {
-    const product = await Product.find({ _id: req.query.id }).lean()
+    const product = await Product.find({_id: req.query.id}).lean()
     const categories_list = await Category.find({}).lean()
     res.render('store/product', {
         title: 'Music Store Product',
         product,
         categories_list
     })
-    console.log(product)
 })
 
 router.get('/order', (req, res) => {
@@ -69,9 +67,27 @@ router.get('/adding-to-cart/:id', async (req, res, next) => {
     })
 })
 
+router.get('/reduce/:id', (req, res, next) => {
+    let productId = req.params.id
+    let cart = new Cart(req.session.cart ? req.session.cart : {})
+
+    cart.reduceByOne(productId)
+    req.session.cart = cart
+    res.redirect('/shopping-cart')
+})
+
+router.get('/remove/:id', (req, res, next) => {
+    let productId = req.params.id
+    let cart = new Cart(req.session.cart ? req.session.cart : {})
+
+    cart.removeItem(productId)
+    req.session.cart = cart
+    res.redirect('/shopping-cart')
+})
+
 router.get('/shopping-cart', (req, res, next) => {
     if (!req.session.cart) {
-        return res.render('store/shopping-cart', { products: null })
+        return res.render('store/shopping-cart', {products: null})
     }
     let cart = new Cart(req.session.cart)
     let products = cart.generateArray()
@@ -81,21 +97,19 @@ router.get('/shopping-cart', (req, res, next) => {
             products,
             totalPrice
         })
-    console.log(products)
 })
 
-router.get('/checkout', (req, res, next) => {
+router.get('/checkout', ensureAuthenticated, (req, res, next) => {
     if (!req.session.cart) {
         return res.redirect('/shopping-cart')
     }
     let cart = new Cart(req.session.cart)
-    res.render('store/order', { total: cart.totalPrice })
+    res.render('store/order', {total: cart.totalPrice})
 })
 
 router.post("/get-goods-info", async (req, res, next) => {
     console.log(req.body.key)
-    const goods = await Product.find({ _id: { $in: req.body.key } }).lean()
-    console.log(goods)
+    const goods = await Product.find({_id: {$in: req.body.key}}).lean()
 });
 
 router.post("/charge", (req, res) => {
